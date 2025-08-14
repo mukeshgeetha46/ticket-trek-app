@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, MapPin, User } from "lucide-react";
+import { Search, MapPin, User, Ticket } from "lucide-react";
 
-const Header = () => {
+interface HeaderProps {
+  onMyBookingsClick?: () => void;
+}
+
+const Header = ({ onMyBookingsClick }: HeaderProps) => {
   return (
     <header className="bg-card border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
@@ -29,6 +33,12 @@ const Header = () => {
               <MapPin className="w-4 h-4 mr-2" />
               Mumbai
             </Button>
+            {onMyBookingsClick && (
+              <Button variant="ghost" size="sm" onClick={onMyBookingsClick}>
+                <Ticket className="w-4 h-4 mr-2" />
+                My Bookings
+              </Button>
+            )}
             <Button variant="outline" size="sm">
               <User className="w-4 h-4 mr-2" />
               Sign In

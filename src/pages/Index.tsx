@@ -5,6 +5,7 @@ import MovieDetails from "@/components/MovieDetails";
 import TheaterSelection from "@/components/TheaterSelection";
 import SeatSelection from "@/components/SeatSelection";
 import BookingConfirmation from "@/components/BookingConfirmation";
+import BookingHistory from "@/components/BookingHistory";
 
 // Import movie posters
 import inceptionPoster from "@/assets/movie-inception-dreams.jpg";
@@ -40,7 +41,7 @@ interface Seat {
   price: number;
 }
 
-type BookingStep = "movies" | "details" | "theaters" | "seats" | "confirmation";
+type BookingStep = "movies" | "details" | "theaters" | "seats" | "confirmation" | "bookings";
 
 const movies: Movie[] = [
   {
@@ -125,12 +126,16 @@ const Index = () => {
     setTotal(0);
   };
 
+  const handleShowBookings = () => {
+    setCurrentStep("bookings");
+  };
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case "movies":
         return (
           <>
-            <Header />
+            <Header onMyBookingsClick={handleShowBookings} />
             <div className="min-h-screen bg-background py-8">
               <div className="container mx-auto px-4">
                 {/* Hero Section */}
@@ -236,6 +241,11 @@ const Index = () => {
             onBackToHome={handleBackToHome}
           />
         ) : null;
+
+      case "bookings":
+        return (
+          <BookingHistory onBack={handleBackToHome} />
+        );
 
       default:
         return null;

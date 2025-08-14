@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import MovieCard from "@/components/MovieCard";
+import MovieDetails from "@/components/MovieDetails";
 import TheaterSelection from "@/components/TheaterSelection";
 import SeatSelection from "@/components/SeatSelection";
 import BookingConfirmation from "@/components/BookingConfirmation";
@@ -39,7 +40,7 @@ interface Seat {
   price: number;
 }
 
-type BookingStep = "movies" | "theaters" | "seats" | "confirmation";
+type BookingStep = "movies" | "details" | "theaters" | "seats" | "confirmation";
 
 const movies: Movie[] = [
   {
@@ -91,7 +92,16 @@ const Index = () => {
 
   const handleMovieSelect = (movie: Movie) => {
     setSelectedMovie(movie);
+    setCurrentStep("details");
+  };
+
+  const handleBookTickets = () => {
     setCurrentStep("theaters");
+  };
+
+  const handleBackToMovies = () => {
+    setCurrentStep("movies");
+    setSelectedMovie(null);
   };
 
   const handleShowtimeSelect = (theater: Theater, showtime: string) => {
@@ -186,6 +196,15 @@ const Index = () => {
             </div>
           </>
         );
+
+      case "details":
+        return selectedMovie ? (
+          <MovieDetails
+            movie={selectedMovie}
+            onBack={handleBackToMovies}
+            onBookTickets={handleBookTickets}
+          />
+        ) : null;
 
       case "theaters":
         return selectedMovie ? (
